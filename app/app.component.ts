@@ -10,7 +10,7 @@ template: `
     <li [class]="priorityColor(currentTask)" (click)="isDone(currentTask)" *ngFor="let currentTask of tasks">{{currentTask.description}} <button (click)="editTask(currentTask)">Edit!</button></li>
   </ul>
   <hr>
-  <div>
+  <div *ngIf="selectedTask">
    <h3>{{selectedTask.description}}</h3>
    <p>Task Complete? {{selectedTask.done}}</p>
   <h3>Edit Task</h3>
@@ -21,6 +21,7 @@ template: `
    <input type="radio" [(ngModel)]="selectedTask.priority" [value]="1">1 (Low Priority)<br>
    <input type="radio" [(ngModel)]="selectedTask.priority" [value]="2">2 (Medium Priority)<br>
    <input type="radio" [(ngModel)]="selectedTask.priority" [value]="3">3 (High Priority)
+   <button (click)="finishedEditing()">Done</button>
   </div>
  </div>
 `
@@ -38,7 +39,7 @@ tasks: Task[] = [
     new Task('Add README file to last few Angular repos on GitHub', 1)
     ];
 
-    selectedTask: Task = this.tasks[0];
+    selectedTask = null;
 
 
     editTask(clickedTask) {
@@ -61,6 +62,10 @@ tasks: Task[] = [
       } else {
         return "bg-info";
       }
+    }
+
+    finishedEditing() {
+      this.selectedTask = null;
     }
 }
 
